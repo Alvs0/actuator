@@ -1,3 +1,29 @@
-service Generator {
+syntax = "proto3";
 
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+package generator;
+
+service Generator {
+  // Start Generating stream of sensor
+  rpc Start(StartSpec) returns (stream Sensor) {}
+
+  // Stop Generating stream of sensor
+  rpc Stop(google.protobuf.Empty) returns (google.protobuf.Empty) {}
+}
+
+message StartSpec {
+    sfixed32 num_of_message_per_second = 1;
+}
+
+// A Sensor is generated in response to a Start rpc
+//
+// It contains value, type, and identifier to be later sent to processor
+message Sensor {
+  float sensor_value = 1;
+  string sensor_type = 2;
+  string id1 = 3;
+  sfixed32 id2 = 4;
+  google.protobuf.Timestamp timestamp = 5;
 }

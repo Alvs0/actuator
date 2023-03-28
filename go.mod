@@ -3,6 +3,7 @@ module actuator
 go 1.18
 
 require (
+	github.com/golang/protobuf v1.5.3
 	github.com/labstack/echo/v4 v4.10.2
 	github.com/lib/pq v1.10.7
 )
@@ -17,4 +18,5 @@ require (
 	golang.org/x/net v0.7.0 // indirect
 	golang.org/x/sys v0.5.0 // indirect
 	golang.org/x/text v0.7.0 // indirect
+	google.golang.org/protobuf v1.26.0 // indirect
 )
