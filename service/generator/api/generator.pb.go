@@ -4,10 +4,14 @@
 package generator
 
 import (
+	context "context"
 	fmt "fmt"
 	proto "github.com/golang/protobuf/proto"
-	_ "github.com/golang/protobuf/ptypes/empty"
+	empty "github.com/golang/protobuf/ptypes/empty"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	grpc "google.golang.org/grpc"
+	codes "google.golang.org/grpc/codes"
+	status "google.golang.org/grpc/status"
 	math "math"
 )
 
@@ -163,4 +167,152 @@ var fileDescriptor_25df606994424d60 = []byte{
 	0xa9, 0x3d, 0x30, 0xec, 0xdd, 0x12, 0x1a, 0xc3, 0x30, 0x35, 0x42, 0xd2, 0xcb, 0x5f, 0x2f, 0xae,
 	0x9b, 0xf5, 0x83, 0x3f, 0x78, 0xd8, 0xdb, 0x8e, 0x2d, 0xb9, 0xff, 0x0c, 0x00, 0x00, 0xff, 0xff,
 	0xf6, 0xc5, 0x37, 0x07, 0xd3, 0x01, 0x00, 0x00,
+}
+
+// Reference imports to suppress errors if they are not otherwise used.
+var _ context.Context
+var _ grpc.ClientConn
+
+// This is a compile-time assertion to ensure that this generated file
+// is compatible with the grpc package it is being compiled against.
+const _ = grpc.SupportPackageIsVersion4
+
+// GeneratorClient is the client API for Generator service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
+type GeneratorClient interface {
+	// Start Generating stream of sensor
+	Start(ctx context.Context, in *StartSpec, opts ...grpc.CallOption) (Generator_StartClient, error)
+	// Stop Generating stream of sensor
+	Stop(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*empty.Empty, error)
+}
+
+type generatorClient struct {
+	cc *grpc.ClientConn
+}
+
+func NewGeneratorClient(cc *grpc.ClientConn) GeneratorClient {
+	return &generatorClient{cc}
+}
+
+func (c *generatorClient) Start(ctx context.Context, in *StartSpec, opts ...grpc.CallOption) (Generator_StartClient, error) {
+	stream, err := c.cc.NewStream(ctx, &_Generator_serviceDesc.Streams[0], "/generator.Generator/Start", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &generatorStartClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type Generator_StartClient interface {
+	Recv() (*Sensor, error)
+	grpc.ClientStream
+}
+
+type generatorStartClient struct {
+	grpc.ClientStream
+}
+
+func (x *generatorStartClient) Recv() (*Sensor, error) {
+	m := new(Sensor)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func (c *generatorClient) Stop(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, "/generator.Generator/Stop", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// GeneratorServer is the server API for Generator service.
+type GeneratorServer interface {
+	// Start Generating stream of sensor
+	Start(*StartSpec, Generator_StartServer) error
+	// Stop Generating stream of sensor
+	Stop(context.Context, *empty.Empty) (*empty.Empty, error)
+}
+
+// UnimplementedGeneratorServer can be embedded to have forward compatible implementations.
+type UnimplementedGeneratorServer struct {
+}
+
+func (*UnimplementedGeneratorServer) Start(req *StartSpec, srv Generator_StartServer) error {
+	return status.Errorf(codes.Unimplemented, "method Start not implemented")
+}
+func (*UnimplementedGeneratorServer) Stop(ctx context.Context, req *empty.Empty) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Stop not implemented")
+}
+
+func RegisterGeneratorServer(s *grpc.Server, srv GeneratorServer) {
+	s.RegisterService(&_Generator_serviceDesc, srv)
+}
+
+func _Generator_Start_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(StartSpec)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(GeneratorServer).Start(m, &generatorStartServer{stream})
+}
+
+type Generator_StartServer interface {
+	Send(*Sensor) error
+	grpc.ServerStream
+}
+
+type generatorStartServer struct {
+	grpc.ServerStream
+}
+
+func (x *generatorStartServer) Send(m *Sensor) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func _Generator_Stop_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(empty.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GeneratorServer).Stop(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/generator.Generator/Stop",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GeneratorServer).Stop(ctx, req.(*empty.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+var _Generator_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "generator.Generator",
+	HandlerType: (*GeneratorServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "Stop",
+			Handler:    _Generator_Stop_Handler,
+		},
+	},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "Start",
+			Handler:       _Generator_Start_Handler,
+			ServerStreams: true,
+		},
+	},
+	Metadata: "generator.proto",
 }
