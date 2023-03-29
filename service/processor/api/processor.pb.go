@@ -7,7 +7,6 @@ import (
 	context "context"
 	fmt "fmt"
 	proto "github.com/golang/protobuf/proto"
-	empty "github.com/golang/protobuf/ptypes/empty"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
@@ -25,63 +24,6 @@ var _ = math.Inf
 // A compilation error at this line likely means your copy of the
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
-
-// Sensor filter contains filter available to retrieve
-// sensor data
-type SensorFilter struct {
-	Id1                  string               `protobuf:"bytes,1,opt,name=id1,proto3" json:"id1,omitempty"`
-	Id2                  int32                `protobuf:"fixed32,2,opt,name=id2,proto3" json:"id2,omitempty"`
-	Timestamp            *timestamp.Timestamp `protobuf:"bytes,3,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}             `json:"-"`
-	XXX_unrecognized     []byte               `json:"-"`
-	XXX_sizecache        int32                `json:"-"`
-}
-
-func (m *SensorFilter) Reset()         { *m = SensorFilter{} }
-func (m *SensorFilter) String() string { return proto.CompactTextString(m) }
-func (*SensorFilter) ProtoMessage()    {}
-func (*SensorFilter) Descriptor() ([]byte, []int) {
-	return fileDescriptor_6783724e039e1aa6, []int{0}
-}
-
-func (m *SensorFilter) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_SensorFilter.Unmarshal(m, b)
-}
-func (m *SensorFilter) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_SensorFilter.Marshal(b, m, deterministic)
-}
-func (m *SensorFilter) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_SensorFilter.Merge(m, src)
-}
-func (m *SensorFilter) XXX_Size() int {
-	return xxx_messageInfo_SensorFilter.Size(m)
-}
-func (m *SensorFilter) XXX_DiscardUnknown() {
-	xxx_messageInfo_SensorFilter.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_SensorFilter proto.InternalMessageInfo
-
-func (m *SensorFilter) GetId1() string {
-	if m != nil {
-		return m.Id1
-	}
-	return ""
-}
-
-func (m *SensorFilter) GetId2() int32 {
-	if m != nil {
-		return m.Id2
-	}
-	return 0
-}
-
-func (m *SensorFilter) GetTimestamp() *timestamp.Timestamp {
-	if m != nil {
-		return m.Timestamp
-	}
-	return nil
-}
 
 // A Sensor is generated in response to a Start rpc
 //
@@ -101,7 +43,7 @@ func (m *Sensor) Reset()         { *m = Sensor{} }
 func (m *Sensor) String() string { return proto.CompactTextString(m) }
 func (*Sensor) ProtoMessage()    {}
 func (*Sensor) Descriptor() ([]byte, []int) {
-	return fileDescriptor_6783724e039e1aa6, []int{1}
+	return fileDescriptor_6783724e039e1aa6, []int{0}
 }
 
 func (m *Sensor) XXX_Unmarshal(b []byte) error {
@@ -157,33 +99,276 @@ func (m *Sensor) GetTimestamp() *timestamp.Timestamp {
 	return nil
 }
 
+// ProcessResponse returns total data processed
+type ProcessResponse struct {
+	Total                int32    `protobuf:"fixed32,1,opt,name=total,proto3" json:"total,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *ProcessResponse) Reset()         { *m = ProcessResponse{} }
+func (m *ProcessResponse) String() string { return proto.CompactTextString(m) }
+func (*ProcessResponse) ProtoMessage()    {}
+func (*ProcessResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_6783724e039e1aa6, []int{1}
+}
+
+func (m *ProcessResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ProcessResponse.Unmarshal(m, b)
+}
+func (m *ProcessResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ProcessResponse.Marshal(b, m, deterministic)
+}
+func (m *ProcessResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ProcessResponse.Merge(m, src)
+}
+func (m *ProcessResponse) XXX_Size() int {
+	return xxx_messageInfo_ProcessResponse.Size(m)
+}
+func (m *ProcessResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_ProcessResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ProcessResponse proto.InternalMessageInfo
+
+func (m *ProcessResponse) GetTotal() int32 {
+	if m != nil {
+		return m.Total
+	}
+	return 0
+}
+
+// SensorFilter specify filters available
+type SensorFilter struct {
+	Id1                  string               `protobuf:"bytes,1,opt,name=id1,proto3" json:"id1,omitempty"`
+	Id2                  int32                `protobuf:"fixed32,2,opt,name=id2,proto3" json:"id2,omitempty"`
+	Timestamp            *timestamp.Timestamp `protobuf:"bytes,3,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}             `json:"-"`
+	XXX_unrecognized     []byte               `json:"-"`
+	XXX_sizecache        int32                `json:"-"`
+}
+
+func (m *SensorFilter) Reset()         { *m = SensorFilter{} }
+func (m *SensorFilter) String() string { return proto.CompactTextString(m) }
+func (*SensorFilter) ProtoMessage()    {}
+func (*SensorFilter) Descriptor() ([]byte, []int) {
+	return fileDescriptor_6783724e039e1aa6, []int{2}
+}
+
+func (m *SensorFilter) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_SensorFilter.Unmarshal(m, b)
+}
+func (m *SensorFilter) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_SensorFilter.Marshal(b, m, deterministic)
+}
+func (m *SensorFilter) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_SensorFilter.Merge(m, src)
+}
+func (m *SensorFilter) XXX_Size() int {
+	return xxx_messageInfo_SensorFilter.Size(m)
+}
+func (m *SensorFilter) XXX_DiscardUnknown() {
+	xxx_messageInfo_SensorFilter.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_SensorFilter proto.InternalMessageInfo
+
+func (m *SensorFilter) GetId1() string {
+	if m != nil {
+		return m.Id1
+	}
+	return ""
+}
+
+func (m *SensorFilter) GetId2() int32 {
+	if m != nil {
+		return m.Id2
+	}
+	return 0
+}
+
+func (m *SensorFilter) GetTimestamp() *timestamp.Timestamp {
+	if m != nil {
+		return m.Timestamp
+	}
+	return nil
+}
+
+// SensorPagination defines pagination specification
+type SensorPagination struct {
+	ItemPerPage          int32    `protobuf:"fixed32,1,opt,name=item_per_page,json=itemPerPage,proto3" json:"item_per_page,omitempty"`
+	PageNumbers          int32    `protobuf:"fixed32,2,opt,name=page_numbers,json=pageNumbers,proto3" json:"page_numbers,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *SensorPagination) Reset()         { *m = SensorPagination{} }
+func (m *SensorPagination) String() string { return proto.CompactTextString(m) }
+func (*SensorPagination) ProtoMessage()    {}
+func (*SensorPagination) Descriptor() ([]byte, []int) {
+	return fileDescriptor_6783724e039e1aa6, []int{3}
+}
+
+func (m *SensorPagination) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_SensorPagination.Unmarshal(m, b)
+}
+func (m *SensorPagination) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_SensorPagination.Marshal(b, m, deterministic)
+}
+func (m *SensorPagination) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_SensorPagination.Merge(m, src)
+}
+func (m *SensorPagination) XXX_Size() int {
+	return xxx_messageInfo_SensorPagination.Size(m)
+}
+func (m *SensorPagination) XXX_DiscardUnknown() {
+	xxx_messageInfo_SensorPagination.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_SensorPagination proto.InternalMessageInfo
+
+func (m *SensorPagination) GetItemPerPage() int32 {
+	if m != nil {
+		return m.ItemPerPage
+	}
+	return 0
+}
+
+func (m *SensorPagination) GetPageNumbers() int32 {
+	if m != nil {
+		return m.PageNumbers
+	}
+	return 0
+}
+
+type SensorFilterAndPagination struct {
+	SensorFilter         *SensorFilter     `protobuf:"bytes,1,opt,name=sensor_filter,json=sensorFilter,proto3" json:"sensor_filter,omitempty"`
+	SensorPagination     *SensorPagination `protobuf:"bytes,2,opt,name=sensor_pagination,json=sensorPagination,proto3" json:"sensor_pagination,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}          `json:"-"`
+	XXX_unrecognized     []byte            `json:"-"`
+	XXX_sizecache        int32             `json:"-"`
+}
+
+func (m *SensorFilterAndPagination) Reset()         { *m = SensorFilterAndPagination{} }
+func (m *SensorFilterAndPagination) String() string { return proto.CompactTextString(m) }
+func (*SensorFilterAndPagination) ProtoMessage()    {}
+func (*SensorFilterAndPagination) Descriptor() ([]byte, []int) {
+	return fileDescriptor_6783724e039e1aa6, []int{4}
+}
+
+func (m *SensorFilterAndPagination) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_SensorFilterAndPagination.Unmarshal(m, b)
+}
+func (m *SensorFilterAndPagination) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_SensorFilterAndPagination.Marshal(b, m, deterministic)
+}
+func (m *SensorFilterAndPagination) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_SensorFilterAndPagination.Merge(m, src)
+}
+func (m *SensorFilterAndPagination) XXX_Size() int {
+	return xxx_messageInfo_SensorFilterAndPagination.Size(m)
+}
+func (m *SensorFilterAndPagination) XXX_DiscardUnknown() {
+	xxx_messageInfo_SensorFilterAndPagination.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_SensorFilterAndPagination proto.InternalMessageInfo
+
+func (m *SensorFilterAndPagination) GetSensorFilter() *SensorFilter {
+	if m != nil {
+		return m.SensorFilter
+	}
+	return nil
+}
+
+func (m *SensorFilterAndPagination) GetSensorPagination() *SensorPagination {
+	if m != nil {
+		return m.SensorPagination
+	}
+	return nil
+}
+
+type SensorResponse struct {
+	Sensors              []*Sensor `protobuf:"bytes,1,rep,name=sensors,proto3" json:"sensors,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}  `json:"-"`
+	XXX_unrecognized     []byte    `json:"-"`
+	XXX_sizecache        int32     `json:"-"`
+}
+
+func (m *SensorResponse) Reset()         { *m = SensorResponse{} }
+func (m *SensorResponse) String() string { return proto.CompactTextString(m) }
+func (*SensorResponse) ProtoMessage()    {}
+func (*SensorResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_6783724e039e1aa6, []int{5}
+}
+
+func (m *SensorResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_SensorResponse.Unmarshal(m, b)
+}
+func (m *SensorResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_SensorResponse.Marshal(b, m, deterministic)
+}
+func (m *SensorResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_SensorResponse.Merge(m, src)
+}
+func (m *SensorResponse) XXX_Size() int {
+	return xxx_messageInfo_SensorResponse.Size(m)
+}
+func (m *SensorResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_SensorResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_SensorResponse proto.InternalMessageInfo
+
+func (m *SensorResponse) GetSensors() []*Sensor {
+	if m != nil {
+		return m.Sensors
+	}
+	return nil
+}
+
 func init() {
-	proto.RegisterType((*SensorFilter)(nil), "processor.SensorFilter")
 	proto.RegisterType((*Sensor)(nil), "processor.Sensor")
+	proto.RegisterType((*ProcessResponse)(nil), "processor.ProcessResponse")
+	proto.RegisterType((*SensorFilter)(nil), "processor.SensorFilter")
+	proto.RegisterType((*SensorPagination)(nil), "processor.SensorPagination")
+	proto.RegisterType((*SensorFilterAndPagination)(nil), "processor.SensorFilterAndPagination")
+	proto.RegisterType((*SensorResponse)(nil), "processor.SensorResponse")
 }
 
 func init() { proto.RegisterFile("processor.proto", fileDescriptor_6783724e039e1aa6) }
 
 var fileDescriptor_6783724e039e1aa6 = []byte{
-	// 283 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x94, 0x91, 0xc1, 0x4a, 0xc3, 0x40,
-	0x10, 0x86, 0xdd, 0xa6, 0x06, 0x32, 0x2d, 0x54, 0xe7, 0xa0, 0x21, 0x1e, 0x1a, 0x73, 0xca, 0x29,
-	0xd5, 0x88, 0xd4, 0x07, 0xb0, 0x7a, 0x95, 0x58, 0xbc, 0x96, 0xd6, 0x8e, 0x25, 0x90, 0xb8, 0xcb,
-	0xee, 0x56, 0xc8, 0x2b, 0x79, 0xf6, 0x01, 0x65, 0x77, 0x4d, 0x2b, 0x06, 0x0f, 0xbd, 0xcd, 0x7e,
-	0xf3, 0xcf, 0xfe, 0x3f, 0x33, 0x30, 0x12, 0x92, 0xbf, 0x92, 0x52, 0x5c, 0x66, 0x42, 0x72, 0xcd,
-	0x31, 0xd8, 0x81, 0xe8, 0x62, 0xc3, 0xf9, 0xa6, 0xa2, 0x89, 0x6d, 0xac, 0xb6, 0x6f, 0x13, 0xaa,
-	0x85, 0x6e, 0x9c, 0x2e, 0x1a, 0xff, 0x6d, 0xea, 0xb2, 0x26, 0xa5, 0x97, 0xb5, 0x70, 0x82, 0xa4,
-	0x82, 0xe1, 0x33, 0xbd, 0x2b, 0x2e, 0x1f, 0xca, 0x4a, 0x93, 0xc4, 0x13, 0xf0, 0xca, 0xf5, 0x75,
-	0xc8, 0x62, 0x96, 0x06, 0x85, 0x29, 0x1d, 0xc9, 0xc3, 0x5e, 0xcc, 0xd2, 0x91, 0x21, 0x39, 0xde,
-	0x41, 0xb0, 0xfb, 0x26, 0xf4, 0x62, 0x96, 0x0e, 0xf2, 0x28, 0x73, 0x46, 0x59, 0x6b, 0x94, 0xcd,
-	0x5b, 0x45, 0xb1, 0x17, 0x27, 0x9f, 0x0c, 0x7c, 0x67, 0x87, 0x97, 0x30, 0x54, 0xb6, 0x5a, 0x7c,
-	0x2c, 0xab, 0x2d, 0x59, 0xc7, 0x5e, 0x31, 0x70, 0xec, 0xc5, 0x20, 0x1c, 0xc3, 0xcf, 0x73, 0xa1,
-	0x1b, 0x41, 0x36, 0x41, 0x50, 0x80, 0x43, 0xf3, 0x46, 0x50, 0x1b, 0xd6, 0xeb, 0x84, 0xed, 0xff,
-	0x13, 0xf6, 0xf8, 0x80, 0xb0, 0xf9, 0x17, 0x83, 0xe0, 0xa9, 0x5d, 0x33, 0x4e, 0xc1, 0x7b, 0x24,
-	0x8d, 0xe7, 0xd9, 0xfe, 0x14, 0xbf, 0x17, 0x17, 0x9d, 0x76, 0x1a, 0xc9, 0x51, 0xca, 0xae, 0x18,
-	0xde, 0x42, 0x7f, 0xb6, 0x2e, 0x35, 0x76, 0x05, 0xd1, 0x59, 0x27, 0xc8, 0xcc, 0xdc, 0xce, 0x0c,
-	0xe2, 0x14, 0xfc, 0x7b, 0xaa, 0x48, 0xd3, 0x81, 0x83, 0x2b, 0xdf, 0xb2, 0x9b, 0xef, 0x00, 0x00,
-	0x00, 0xff, 0xff, 0x43, 0x15, 0xc1, 0x82, 0x34, 0x02, 0x00, 0x00,
+	// 420 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x94, 0x92, 0xcf, 0x6b, 0xd5, 0x40,
+	0x10, 0xc7, 0xdd, 0x17, 0xdb, 0xf2, 0x26, 0xad, 0x79, 0x5d, 0x04, 0xd3, 0x78, 0x68, 0x0c, 0x82,
+	0x01, 0x21, 0xd5, 0x78, 0xf1, 0xa0, 0x82, 0x17, 0xed, 0x49, 0xc2, 0x5a, 0x04, 0x4f, 0x21, 0xcf,
+	0x4e, 0x43, 0x20, 0xc9, 0x2e, 0xd9, 0x7d, 0x42, 0xff, 0x10, 0xff, 0x02, 0x6f, 0xfe, 0x95, 0xb2,
+	0x3f, 0x92, 0x17, 0x1b, 0x7a, 0xf0, 0xb6, 0xfb, 0x9d, 0xef, 0xce, 0x7c, 0x66, 0x66, 0x21, 0x10,
+	0x03, 0xff, 0x81, 0x52, 0xf2, 0x21, 0x13, 0x03, 0x57, 0x9c, 0xae, 0x27, 0x21, 0x3a, 0xaf, 0x39,
+	0xaf, 0x5b, 0xbc, 0x30, 0x81, 0xed, 0xee, 0xe6, 0x42, 0x35, 0x1d, 0x4a, 0x55, 0x75, 0xc2, 0x7a,
+	0x93, 0x3f, 0x04, 0x0e, 0xbf, 0x62, 0x2f, 0xf9, 0x40, 0x9f, 0xc1, 0xb1, 0x34, 0xa7, 0xf2, 0x67,
+	0xd5, 0xee, 0x30, 0x24, 0x31, 0x49, 0x57, 0xcc, 0xb7, 0xda, 0x37, 0x2d, 0xd1, 0x73, 0x70, 0xd7,
+	0x52, 0xdd, 0x0a, 0x0c, 0x57, 0x31, 0x49, 0xd7, 0x0c, 0xac, 0x74, 0x75, 0x2b, 0x90, 0x6e, 0xc0,
+	0x6b, 0xae, 0x5f, 0x87, 0x9e, 0x09, 0xe8, 0xa3, 0x55, 0xf2, 0xf0, 0x61, 0x4c, 0xd2, 0x40, 0x2b,
+	0x39, 0x7d, 0x0b, 0xeb, 0x89, 0x22, 0x3c, 0x88, 0x49, 0xea, 0xe7, 0x51, 0x66, 0x39, 0xb3, 0x91,
+	0x33, 0xbb, 0x1a, 0x1d, 0x6c, 0x6f, 0x4e, 0x5e, 0x40, 0x50, 0xd8, 0xd6, 0x18, 0x4a, 0xc1, 0x7b,
+	0x89, 0xf4, 0x31, 0x1c, 0x28, 0xae, 0xaa, 0xd6, 0xd0, 0x06, 0xcc, 0x5e, 0x92, 0x16, 0x8e, 0x6d,
+	0x53, 0x9f, 0x9a, 0x56, 0xe1, 0x30, 0x62, 0x91, 0x05, 0xd6, 0xea, 0x1e, 0x2c, 0xef, 0x7f, 0xb0,
+	0xbe, 0xc3, 0xc6, 0x56, 0x2b, 0xaa, 0xba, 0xe9, 0x2b, 0xd5, 0xf0, 0x9e, 0x26, 0x70, 0xd2, 0x28,
+	0xec, 0x4a, 0x81, 0x43, 0x29, 0xaa, 0x1a, 0x1d, 0x9f, 0xaf, 0xc5, 0x02, 0xb5, 0x13, 0xf5, 0xc0,
+	0x75, 0xa8, 0xec, 0x77, 0xdd, 0x16, 0x07, 0xe9, 0x60, 0x7c, 0xad, 0x7d, 0xb1, 0x52, 0xf2, 0x9b,
+	0xc0, 0xd9, 0xbc, 0x93, 0x8f, 0xfd, 0xf5, 0xac, 0xc8, 0x3b, 0x38, 0x71, 0xeb, 0xb8, 0x31, 0x51,
+	0x53, 0xc4, 0xcf, 0x9f, 0x64, 0xfb, 0x1f, 0x31, 0x7f, 0xcc, 0xdc, 0x7e, 0xdd, 0x50, 0x2e, 0xe1,
+	0xd4, 0xbd, 0x16, 0x53, 0x4a, 0xc3, 0xe0, 0xe7, 0x4f, 0x17, 0x19, 0xf6, 0x55, 0xd9, 0x46, 0xde,
+	0x51, 0x92, 0xf7, 0xf0, 0xc8, 0xba, 0xa6, 0xb5, 0xbc, 0x84, 0x23, 0xeb, 0x92, 0x21, 0x89, 0xbd,
+	0xd4, 0xcf, 0x4f, 0x17, 0x19, 0xd9, 0xe8, 0xc8, 0x7f, 0x11, 0x58, 0x17, 0x63, 0x94, 0x7e, 0x80,
+	0x23, 0x77, 0xa1, 0xcb, 0x47, 0x51, 0x34, 0x93, 0xee, 0xfc, 0x85, 0xe4, 0x41, 0x4a, 0x5e, 0x11,
+	0x7a, 0x09, 0xde, 0x67, 0x54, 0xf4, 0xf9, 0x3d, 0x43, 0xf8, 0x67, 0x82, 0xd1, 0xd9, 0x12, 0x6b,
+	0xca, 0xb6, 0x3d, 0x34, 0x6b, 0x7f, 0xf3, 0x37, 0x00, 0x00, 0xff, 0xff, 0x72, 0x01, 0xdd, 0xde,
+	0x61, 0x03, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -198,10 +383,10 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type ProcessorClient interface {
-	// Get returns stream of sensor to be later used for analytics
-	Get(ctx context.Context, opts ...grpc.CallOption) (Processor_GetClient, error)
-	Edit(ctx context.Context, opts ...grpc.CallOption) (Processor_EditClient, error)
-	Delete(ctx context.Context, opts ...grpc.CallOption) (Processor_DeleteClient, error)
+	// Process process sensor data stream and return amount processed
+	Process(ctx context.Context, opts ...grpc.CallOption) (Processor_ProcessClient, error)
+	// Get returns sensor data based on filter and pagination
+	Get(ctx context.Context, in *SensorFilterAndPagination, opts ...grpc.CallOption) (*SensorResponse, error)
 }
 
 type processorClient struct {
@@ -212,176 +397,88 @@ func NewProcessorClient(cc *grpc.ClientConn) ProcessorClient {
 	return &processorClient{cc}
 }
 
-func (c *processorClient) Get(ctx context.Context, opts ...grpc.CallOption) (Processor_GetClient, error) {
-	stream, err := c.cc.NewStream(ctx, &_Processor_serviceDesc.Streams[0], "/processor.Processor/Get", opts...)
+func (c *processorClient) Process(ctx context.Context, opts ...grpc.CallOption) (Processor_ProcessClient, error) {
+	stream, err := c.cc.NewStream(ctx, &_Processor_serviceDesc.Streams[0], "/processor.Processor/Process", opts...)
 	if err != nil {
 		return nil, err
 	}
-	x := &processorGetClient{stream}
+	x := &processorProcessClient{stream}
 	return x, nil
 }
 
-type Processor_GetClient interface {
-	Send(*SensorFilter) error
-	Recv() (*Sensor, error)
-	grpc.ClientStream
-}
-
-type processorGetClient struct {
-	grpc.ClientStream
-}
-
-func (x *processorGetClient) Send(m *SensorFilter) error {
-	return x.ClientStream.SendMsg(m)
-}
-
-func (x *processorGetClient) Recv() (*Sensor, error) {
-	m := new(Sensor)
-	if err := x.ClientStream.RecvMsg(m); err != nil {
-		return nil, err
-	}
-	return m, nil
-}
-
-func (c *processorClient) Edit(ctx context.Context, opts ...grpc.CallOption) (Processor_EditClient, error) {
-	stream, err := c.cc.NewStream(ctx, &_Processor_serviceDesc.Streams[1], "/processor.Processor/Edit", opts...)
-	if err != nil {
-		return nil, err
-	}
-	x := &processorEditClient{stream}
-	return x, nil
-}
-
-type Processor_EditClient interface {
+type Processor_ProcessClient interface {
 	Send(*Sensor) error
-	CloseAndRecv() (*empty.Empty, error)
+	Recv() (*ProcessResponse, error)
 	grpc.ClientStream
 }
 
-type processorEditClient struct {
+type processorProcessClient struct {
 	grpc.ClientStream
 }
 
-func (x *processorEditClient) Send(m *Sensor) error {
+func (x *processorProcessClient) Send(m *Sensor) error {
 	return x.ClientStream.SendMsg(m)
 }
 
-func (x *processorEditClient) CloseAndRecv() (*empty.Empty, error) {
-	if err := x.ClientStream.CloseSend(); err != nil {
-		return nil, err
-	}
-	m := new(empty.Empty)
+func (x *processorProcessClient) Recv() (*ProcessResponse, error) {
+	m := new(ProcessResponse)
 	if err := x.ClientStream.RecvMsg(m); err != nil {
 		return nil, err
 	}
 	return m, nil
 }
 
-func (c *processorClient) Delete(ctx context.Context, opts ...grpc.CallOption) (Processor_DeleteClient, error) {
-	stream, err := c.cc.NewStream(ctx, &_Processor_serviceDesc.Streams[2], "/processor.Processor/Delete", opts...)
+func (c *processorClient) Get(ctx context.Context, in *SensorFilterAndPagination, opts ...grpc.CallOption) (*SensorResponse, error) {
+	out := new(SensorResponse)
+	err := c.cc.Invoke(ctx, "/processor.Processor/Get", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
-	x := &processorDeleteClient{stream}
-	return x, nil
-}
-
-type Processor_DeleteClient interface {
-	Send(*Sensor) error
-	CloseAndRecv() (*empty.Empty, error)
-	grpc.ClientStream
-}
-
-type processorDeleteClient struct {
-	grpc.ClientStream
-}
-
-func (x *processorDeleteClient) Send(m *Sensor) error {
-	return x.ClientStream.SendMsg(m)
-}
-
-func (x *processorDeleteClient) CloseAndRecv() (*empty.Empty, error) {
-	if err := x.ClientStream.CloseSend(); err != nil {
-		return nil, err
-	}
-	m := new(empty.Empty)
-	if err := x.ClientStream.RecvMsg(m); err != nil {
-		return nil, err
-	}
-	return m, nil
+	return out, nil
 }
 
 // ProcessorServer is the server API for Processor service.
 type ProcessorServer interface {
-	// Get returns stream of sensor to be later used for analytics
-	Get(Processor_GetServer) error
-	Edit(Processor_EditServer) error
-	Delete(Processor_DeleteServer) error
+	// Process process sensor data stream and return amount processed
+	Process(Processor_ProcessServer) error
+	// Get returns sensor data based on filter and pagination
+	Get(context.Context, *SensorFilterAndPagination) (*SensorResponse, error)
 }
 
 // UnimplementedProcessorServer can be embedded to have forward compatible implementations.
 type UnimplementedProcessorServer struct {
 }
 
-func (*UnimplementedProcessorServer) Get(srv Processor_GetServer) error {
-	return status.Errorf(codes.Unimplemented, "method Get not implemented")
+func (*UnimplementedProcessorServer) Process(srv Processor_ProcessServer) error {
+	return status.Errorf(codes.Unimplemented, "method Process not implemented")
 }
-func (*UnimplementedProcessorServer) Edit(srv Processor_EditServer) error {
-	return status.Errorf(codes.Unimplemented, "method Edit not implemented")
-}
-func (*UnimplementedProcessorServer) Delete(srv Processor_DeleteServer) error {
-	return status.Errorf(codes.Unimplemented, "method Delete not implemented")
+func (*UnimplementedProcessorServer) Get(ctx context.Context, req *SensorFilterAndPagination) (*SensorResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
 }
 
 func RegisterProcessorServer(s *grpc.Server, srv ProcessorServer) {
 	s.RegisterService(&_Processor_serviceDesc, srv)
 }
 
-func _Processor_Get_Handler(srv interface{}, stream grpc.ServerStream) error {
-	return srv.(ProcessorServer).Get(&processorGetServer{stream})
+func _Processor_Process_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(ProcessorServer).Process(&processorProcessServer{stream})
 }
 
-type Processor_GetServer interface {
-	Send(*Sensor) error
-	Recv() (*SensorFilter, error)
-	grpc.ServerStream
-}
-
-type processorGetServer struct {
-	grpc.ServerStream
-}
-
-func (x *processorGetServer) Send(m *Sensor) error {
-	return x.ServerStream.SendMsg(m)
-}
-
-func (x *processorGetServer) Recv() (*SensorFilter, error) {
-	m := new(SensorFilter)
-	if err := x.ServerStream.RecvMsg(m); err != nil {
-		return nil, err
-	}
-	return m, nil
-}
-
-func _Processor_Edit_Handler(srv interface{}, stream grpc.ServerStream) error {
-	return srv.(ProcessorServer).Edit(&processorEditServer{stream})
-}
-
-type Processor_EditServer interface {
-	SendAndClose(*empty.Empty) error
+type Processor_ProcessServer interface {
+	Send(*ProcessResponse) error
 	Recv() (*Sensor, error)
 	grpc.ServerStream
 }
 
-type processorEditServer struct {
+type processorProcessServer struct {
 	grpc.ServerStream
 }
 
-func (x *processorEditServer) SendAndClose(m *empty.Empty) error {
+func (x *processorProcessServer) Send(m *ProcessResponse) error {
 	return x.ServerStream.SendMsg(m)
 }
 
-func (x *processorEditServer) Recv() (*Sensor, error) {
+func (x *processorProcessServer) Recv() (*Sensor, error) {
 	m := new(Sensor)
 	if err := x.ServerStream.RecvMsg(m); err != nil {
 		return nil, err
@@ -389,51 +486,38 @@ func (x *processorEditServer) Recv() (*Sensor, error) {
 	return m, nil
 }
 
-func _Processor_Delete_Handler(srv interface{}, stream grpc.ServerStream) error {
-	return srv.(ProcessorServer).Delete(&processorDeleteServer{stream})
-}
-
-type Processor_DeleteServer interface {
-	SendAndClose(*empty.Empty) error
-	Recv() (*Sensor, error)
-	grpc.ServerStream
-}
-
-type processorDeleteServer struct {
-	grpc.ServerStream
-}
-
-func (x *processorDeleteServer) SendAndClose(m *empty.Empty) error {
-	return x.ServerStream.SendMsg(m)
-}
-
-func (x *processorDeleteServer) Recv() (*Sensor, error) {
-	m := new(Sensor)
-	if err := x.ServerStream.RecvMsg(m); err != nil {
+func _Processor_Get_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SensorFilterAndPagination)
+	if err := dec(in); err != nil {
 		return nil, err
 	}
-	return m, nil
+	if interceptor == nil {
+		return srv.(ProcessorServer).Get(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/processor.Processor/Get",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProcessorServer).Get(ctx, req.(*SensorFilterAndPagination))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 var _Processor_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "processor.Processor",
 	HandlerType: (*ProcessorServer)(nil),
-	Methods:     []grpc.MethodDesc{},
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "Get",
+			Handler:    _Processor_Get_Handler,
+		},
+	},
 	Streams: []grpc.StreamDesc{
 		{
-			StreamName:    "Get",
-			Handler:       _Processor_Get_Handler,
+			StreamName:    "Process",
+			Handler:       _Processor_Process_Handler,
 			ServerStreams: true,
-			ClientStreams: true,
-		},
-		{
-			StreamName:    "Edit",
-			Handler:       _Processor_Edit_Handler,
-			ClientStreams: true,
-		},
-		{
-			StreamName:    "Delete",
-			Handler:       _Processor_Delete_Handler,
 			ClientStreams: true,
 		},
 	},

@@ -1,9 +1,9 @@
 package impl
 
 import (
-	"sync"
+	generator "actuator/service/generator/api"
 )
 
-type generator struct {
-	mu         sync.Mutex
+type generatorService struct {
+	generator.UnimplementedGeneratorServer
 }

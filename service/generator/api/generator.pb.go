@@ -8,7 +8,6 @@ import (
 	fmt "fmt"
 	proto "github.com/golang/protobuf/proto"
 	empty "github.com/golang/protobuf/ptypes/empty"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -65,108 +64,26 @@ func (m *StartSpec) GetNumOfMessagePerSecond() int32 {
 	return 0
 }
 
-// A Sensor is generated in response to a Start rpc
-//
-// It contains value, type, and identifier to be later sent to processor
-type Sensor struct {
-	SensorValue          float32              `protobuf:"fixed32,1,opt,name=sensor_value,json=sensorValue,proto3" json:"sensor_value,omitempty"`
-	SensorType           string               `protobuf:"bytes,2,opt,name=sensor_type,json=sensorType,proto3" json:"sensor_type,omitempty"`
-	Id1                  string               `protobuf:"bytes,3,opt,name=id1,proto3" json:"id1,omitempty"`
-	Id2                  int32                `protobuf:"fixed32,4,opt,name=id2,proto3" json:"id2,omitempty"`
-	Timestamp            *timestamp.Timestamp `protobuf:"bytes,5,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}             `json:"-"`
-	XXX_unrecognized     []byte               `json:"-"`
-	XXX_sizecache        int32                `json:"-"`
-}
-
-func (m *Sensor) Reset()         { *m = Sensor{} }
-func (m *Sensor) String() string { return proto.CompactTextString(m) }
-func (*Sensor) ProtoMessage()    {}
-func (*Sensor) Descriptor() ([]byte, []int) {
-	return fileDescriptor_25df606994424d60, []int{1}
-}
-
-func (m *Sensor) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_Sensor.Unmarshal(m, b)
-}
-func (m *Sensor) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_Sensor.Marshal(b, m, deterministic)
-}
-func (m *Sensor) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Sensor.Merge(m, src)
-}
-func (m *Sensor) XXX_Size() int {
-	return xxx_messageInfo_Sensor.Size(m)
-}
-func (m *Sensor) XXX_DiscardUnknown() {
-	xxx_messageInfo_Sensor.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_Sensor proto.InternalMessageInfo
-
-func (m *Sensor) GetSensorValue() float32 {
-	if m != nil {
-		return m.SensorValue
-	}
-	return 0
-}
-
-func (m *Sensor) GetSensorType() string {
-	if m != nil {
-		return m.SensorType
-	}
-	return ""
-}
-
-func (m *Sensor) GetId1() string {
-	if m != nil {
-		return m.Id1
-	}
-	return ""
-}
-
-func (m *Sensor) GetId2() int32 {
-	if m != nil {
-		return m.Id2
-	}
-	return 0
-}
-
-func (m *Sensor) GetTimestamp() *timestamp.Timestamp {
-	if m != nil {
-		return m.Timestamp
-	}
-	return nil
-}
-
 func init() {
 	proto.RegisterType((*StartSpec)(nil), "generator.StartSpec")
-	proto.RegisterType((*Sensor)(nil), "generator.Sensor")
 }
 
 func init() { proto.RegisterFile("generator.proto", fileDescriptor_25df606994424d60) }
 
 var fileDescriptor_25df606994424d60 = []byte{
-	// 296 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x74, 0x90, 0xcf, 0x4a, 0xf3, 0x40,
-	0x14, 0xc5, 0x3b, 0xfd, 0x07, 0xb9, 0xfd, 0xa0, 0x9f, 0x83, 0x4a, 0x8c, 0x8b, 0xd6, 0xac, 0xba,
-	0x4a, 0xb5, 0xba, 0xc8, 0x0b, 0x14, 0x57, 0xa2, 0x24, 0xc5, 0xed, 0x90, 0xb6, 0x37, 0xa1, 0xd0,
-	0xc9, 0x0c, 0x33, 0x13, 0x21, 0xf8, 0x46, 0x3e, 0xa5, 0x64, 0xc6, 0xa4, 0xa2, 0xb8, 0x3b, 0xf9,
-	0x9d, 0x13, 0xe6, 0x9e, 0x03, 0xd3, 0x02, 0x4b, 0x54, 0x99, 0x11, 0x2a, 0x92, 0x4a, 0x18, 0x41,
-	0xbd, 0x0e, 0x04, 0xd7, 0x85, 0x10, 0xc5, 0x11, 0x97, 0xd6, 0xd8, 0x56, 0xf9, 0x12, 0xb9, 0x34,
-	0xb5, 0xcb, 0x05, 0xb3, 0x9f, 0xa6, 0x39, 0x70, 0xd4, 0x26, 0xe3, 0xd2, 0x05, 0xc2, 0x35, 0x78,
-	0xa9, 0xc9, 0x94, 0x49, 0x25, 0xee, 0x68, 0x0c, 0x57, 0x65, 0xc5, 0x99, 0xc8, 0x19, 0x47, 0xad,
-	0xb3, 0x02, 0x99, 0x44, 0xc5, 0x34, 0xee, 0x44, 0xb9, 0xf7, 0xc9, 0x9c, 0x2c, 0xa6, 0xc9, 0x45,
-	0x59, 0xf1, 0xe7, 0xfc, 0xc9, 0xd9, 0x2f, 0xa8, 0x52, 0x6b, 0x86, 0x1f, 0x04, 0xc6, 0x29, 0x96,
-	0x5a, 0x28, 0x7a, 0x03, 0xff, 0xb4, 0x55, 0xec, 0x2d, 0x3b, 0x56, 0x68, 0xff, 0xeb, 0x27, 0x13,
-	0xc7, 0x5e, 0x1b, 0x44, 0x67, 0xf0, 0xf5, 0xc9, 0x4c, 0x2d, 0xd1, 0xef, 0xcf, 0xc9, 0xc2, 0x4b,
-	0xc0, 0xa1, 0x4d, 0x2d, 0x91, 0xfe, 0x87, 0xc1, 0x61, 0x7f, 0xe7, 0x0f, 0xac, 0xd1, 0x48, 0x47,
-	0x56, 0xfe, 0xd0, 0x1e, 0xd1, 0x48, 0x1a, 0x83, 0xd7, 0x95, 0xf1, 0x47, 0x73, 0xb2, 0x98, 0xac,
-	0x82, 0xc8, 0xd5, 0x8d, 0xda, 0xba, 0xd1, 0xa6, 0x4d, 0x24, 0xa7, 0xf0, 0xea, 0x1d, 0xbc, 0xc7,
-	0x76, 0x3e, 0xfa, 0x00, 0x23, 0x3b, 0x00, 0x3d, 0x8f, 0x4e, 0x23, 0x77, 0x93, 0x04, 0x67, 0xdf,
-	0xa9, 0x3d, 0x30, 0xec, 0xdd, 0x12, 0x1a, 0xc3, 0x30, 0x35, 0x42, 0xd2, 0xcb, 0x5f, 0x2f, 0xae,
-	0x9b, 0xf5, 0x83, 0x3f, 0x78, 0xd8, 0xdb, 0x8e, 0x2d, 0xb9, 0xff, 0x0c, 0x00, 0x00, 0xff, 0xff,
-	0xf6, 0xc5, 0x37, 0x07, 0xd3, 0x01, 0x00, 0x00,
+	// 184 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0xe2, 0x4f, 0x4f, 0xcd, 0x4b,
+	0x2d, 0x4a, 0x2c, 0xc9, 0x2f, 0xd2, 0x2b, 0x28, 0xca, 0x2f, 0xc9, 0x17, 0xe2, 0x84, 0x0b, 0x48,
+	0x49, 0xa7, 0xe7, 0xe7, 0xa7, 0xe7, 0xa4, 0xea, 0x83, 0x25, 0x92, 0x4a, 0xd3, 0xf4, 0x53, 0x73,
+	0x0b, 0x4a, 0x2a, 0x21, 0xea, 0x94, 0x5c, 0xb9, 0x38, 0x83, 0x4b, 0x12, 0x8b, 0x4a, 0x82, 0x0b,
+	0x52, 0x93, 0x85, 0x2c, 0xb8, 0x24, 0xf3, 0x4a, 0x73, 0xe3, 0xf3, 0xd3, 0xe2, 0x73, 0x53, 0x8b,
+	0x8b, 0x13, 0xd3, 0x53, 0xe3, 0x0b, 0x52, 0x8b, 0xe2, 0x8b, 0x53, 0x93, 0xf3, 0xf3, 0x52, 0x24,
+	0x18, 0x15, 0x18, 0x35, 0xf8, 0x83, 0x44, 0xf3, 0x4a, 0x73, 0xfd, 0xd3, 0x7c, 0x21, 0xd2, 0x01,
+	0xa9, 0x45, 0xc1, 0x60, 0x49, 0xa3, 0x3a, 0x2e, 0x4e, 0x77, 0x98, 0x85, 0x42, 0xe6, 0x5c, 0xac,
+	0x60, 0x33, 0x85, 0x44, 0xf4, 0x10, 0xce, 0x82, 0xdb, 0x22, 0x25, 0xa6, 0x07, 0x71, 0x90, 0x1e,
+	0xcc, 0x41, 0x7a, 0xae, 0x20, 0x07, 0x29, 0x31, 0x08, 0x59, 0x70, 0xb1, 0x04, 0x97, 0xe4, 0x17,
+	0x08, 0xe1, 0x50, 0x81, 0x5b, 0x67, 0x12, 0x1b, 0x58, 0xc4, 0x18, 0x10, 0x00, 0x00, 0xff, 0xff,
+	0xca, 0x40, 0xd1, 0x62, 0x08, 0x01, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -182,7 +99,7 @@ const _ = grpc.SupportPackageIsVersion4
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type GeneratorClient interface {
 	// Start Generating stream of sensor
-	Start(ctx context.Context, in *StartSpec, opts ...grpc.CallOption) (Generator_StartClient, error)
+	Start(ctx context.Context, in *StartSpec, opts ...grpc.CallOption) (*empty.Empty, error)
 	// Stop Generating stream of sensor
 	Stop(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*empty.Empty, error)
 }
@@ -195,36 +112,13 @@ func NewGeneratorClient(cc *grpc.ClientConn) GeneratorClient {
 	return &generatorClient{cc}
 }
 
-func (c *generatorClient) Start(ctx context.Context, in *StartSpec, opts ...grpc.CallOption) (Generator_StartClient, error) {
-	stream, err := c.cc.NewStream(ctx, &_Generator_serviceDesc.Streams[0], "/generator.Generator/Start", opts...)
+func (c *generatorClient) Start(ctx context.Context, in *StartSpec, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, "/generator.Generator/Start", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
-	x := &generatorStartClient{stream}
-	if err := x.ClientStream.SendMsg(in); err != nil {
-		return nil, err
-	}
-	if err := x.ClientStream.CloseSend(); err != nil {
-		return nil, err
-	}
-	return x, nil
-}
-
-type Generator_StartClient interface {
-	Recv() (*Sensor, error)
-	grpc.ClientStream
-}
-
-type generatorStartClient struct {
-	grpc.ClientStream
-}
-
-func (x *generatorStartClient) Recv() (*Sensor, error) {
-	m := new(Sensor)
-	if err := x.ClientStream.RecvMsg(m); err != nil {
-		return nil, err
-	}
-	return m, nil
+	return out, nil
 }
 
 func (c *generatorClient) Stop(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*empty.Empty, error) {
@@ -239,7 +133,7 @@ func (c *generatorClient) Stop(ctx context.Context, in *empty.Empty, opts ...grp
 // GeneratorServer is the server API for Generator service.
 type GeneratorServer interface {
 	// Start Generating stream of sensor
-	Start(*StartSpec, Generator_StartServer) error
+	Start(context.Context, *StartSpec) (*empty.Empty, error)
 	// Stop Generating stream of sensor
 	Stop(context.Context, *empty.Empty) (*empty.Empty, error)
 }
@@ -248,8 +142,8 @@ type GeneratorServer interface {
 type UnimplementedGeneratorServer struct {
 }
 
-func (*UnimplementedGeneratorServer) Start(req *StartSpec, srv Generator_StartServer) error {
-	return status.Errorf(codes.Unimplemented, "method Start not implemented")
+func (*UnimplementedGeneratorServer) Start(ctx context.Context, req *StartSpec) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Start not implemented")
 }
 func (*UnimplementedGeneratorServer) Stop(ctx context.Context, req *empty.Empty) (*empty.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Stop not implemented")
@@ -259,25 +153,22 @@ func RegisterGeneratorServer(s *grpc.Server, srv GeneratorServer) {
 	s.RegisterService(&_Generator_serviceDesc, srv)
 }
 
-func _Generator_Start_Handler(srv interface{}, stream grpc.ServerStream) error {
-	m := new(StartSpec)
-	if err := stream.RecvMsg(m); err != nil {
-		return err
+func _Generator_Start_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(StartSpec)
+	if err := dec(in); err != nil {
+		return nil, err
 	}
-	return srv.(GeneratorServer).Start(m, &generatorStartServer{stream})
-}
-
-type Generator_StartServer interface {
-	Send(*Sensor) error
-	grpc.ServerStream
-}
-
-type generatorStartServer struct {
-	grpc.ServerStream
-}
-
-func (x *generatorStartServer) Send(m *Sensor) error {
-	return x.ServerStream.SendMsg(m)
+	if interceptor == nil {
+		return srv.(GeneratorServer).Start(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/generator.Generator/Start",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GeneratorServer).Start(ctx, req.(*StartSpec))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _Generator_Stop_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -303,16 +194,14 @@ var _Generator_serviceDesc = grpc.ServiceDesc{
 	HandlerType: (*GeneratorServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
+			MethodName: "Start",
+			Handler:    _Generator_Start_Handler,
+		},
+		{
 			MethodName: "Stop",
 			Handler:    _Generator_Stop_Handler,
 		},
 	},
-	Streams: []grpc.StreamDesc{
-		{
-			StreamName:    "Start",
-			Handler:       _Generator_Start_Handler,
-			ServerStreams: true,
-		},
-	},
+	Streams:  []grpc.StreamDesc{},
 	Metadata: "generator.proto",
 }

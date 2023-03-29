@@ -1,25 +1,22 @@
 syntax = "proto3";
 
-import "google/protobuf/empty.proto";
 import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
 
 package processor;
 
 service Processor {
-  // Get returns stream of sensor to be later used for analytics
-  rpc Get(stream SensorFilter) returns (stream Sensor) {}
+  // Process process sensor data stream and return amount processed
+  rpc Process(stream Sensor) returns (stream ProcessResponse) {}
 
-  rpc Edit(stream Sensor) returns (google.protobuf.Empty) {}
+  // Get returns sensor data based on filter and pagination
+  rpc Get(SensorFilterAndPagination) returns (SensorResponse) {}
 
-  rpc Delete(stream Sensor) returns (google.protobuf.Empty) {}
-}
+  // Delete deletes sensor in the database based on filter
+  rpc Delete(SensorFilter) returns (google.protobuf.Empty) {}
 
-// Sensor filter contains filter available to retrieve
-// sensor data
-message SensorFilter {
-  string id1 = 1;
-  sfixed32 id2 = 2;
-  google.protobuf.Timestamp timestamp = 3;
+  // Edit updates sensor in the database based on filter
+  rpc Edit(SensorFilter) returns (google.protobuf.Empty) {}
 }
 
 // A Sensor is generated in response to a Start rpc
@@ -31,4 +28,31 @@ message Sensor {
   string id1 = 3;
   sfixed32 id2 = 4;
   google.protobuf.Timestamp timestamp = 5;
+}
+
+// ProcessResponse returns total data processed
+message ProcessResponse {
+  sfixed32 total = 1;
+}
+
+// SensorFilter specify filters available
+message SensorFilter {
+  string id1 = 1;
+  sfixed32 id2 = 2;
+  google.protobuf.Timestamp timestamp = 3;
+}
+
+// SensorPagination defines pagination specification
+message SensorPagination {
+  sfixed32 item_per_page = 1;
+  sfixed32 page_numbers = 2;
+}
+
+message SensorFilterAndPagination {
+  SensorFilter sensor_filter = 1;
+  SensorPagination sensor_pagination = 2;
+}
+
+message SensorResponse {
+  repeated Sensor sensors = 1;
 }
