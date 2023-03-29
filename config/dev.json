@@ -1,0 +1,10 @@
+{
+  "MySQLConfig": {
+    "dbName": "actuator",
+    "dbUser": "admin",
+    "dbHost": "actuator.czw5it4vhqmm.ap-southeast-1.rds.amazonaws.com",
+    "dbPort": "3306",
+    "dbPassword": "mysecret",
+    "region": "ap-southeast-1a"
+  }
+}

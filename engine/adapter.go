@@ -4,43 +4,19 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
-	"github.com/lib/pq"
 	"log"
 	"reflect"
 
-	_ "github.com/lib/pq"
-)
-
-const (
-	MySQLDriverName       = "mysql"
-	MySQLConnStringFormat = "%v:%v@%v/%v"
+	_ "github.com/go-sql-driver/mysql"
 )
 
 type SqlConfig struct {
-	HostUrl      string `json:"HostUrl"`
-	DatabaseName string `json:"DatabaseName"`
-	Username     string `json:"Username"`
-	Password     string `json:"Password"`
-	FullUrl      string `json:"FullUrl"`
-}
-
-func (s SqlConfig) GetSqlConnectionSpecification() (driverName string, datasourceName string) {
-	driverName = MySQLDriverName
-	datasourceName = fmt.Sprintf(MySQLConnStringFormat,
-		s.Username,
-		s.Password,
-		s.HostUrl,
-		s.DatabaseName,
-	)
-
-	pqUrl, err := pq.ParseURL(s.FullUrl)
-	if err != nil {
-		log.Fatalln(fmt.Errorf("error parsing database url. cause: %v", err.Error()))
-	}
-
-	datasourceName = pqUrl
-
-	return
+	DbName     string `json:"dbName"`
+	DbUser     string `json:"dbUser"`
+	DbHost     string `json:"dbHost"`
+	DbPort     string `json:"dbPort"`
+	DbPassword string `json:"dbPassword"`
+	Region     string `json:"region"`
 }
 
 type SqlAdapter interface {
@@ -52,17 +28,19 @@ type sqlAdapter struct {
 	sqlDb *sql.DB
 }
 
-func NewSqlAdapter(config SqlConfig) SqlAdapter {
-	sqlDb, err := sql.Open(config.GetSqlConnectionSpecification())
+func NewSqlAdapter(sqlCfg SqlConfig) SqlAdapter {
+	dbEndpoint := fmt.Sprintf("%s:%s", sqlCfg.DbHost, sqlCfg.DbPort)
+	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s?tls=true&allowCleartextPasswords=true",
+		sqlCfg.DbUser, sqlCfg.DbPassword, dbEndpoint, sqlCfg.DbName,
+	)
+
+	db, err := sql.Open("mysql", dsn)
 	if err != nil {
-		log.Fatalln(fmt.Errorf("error instantiating database. cause: %v", err.Error()))
+		log.Fatal("[SqlAdapter] failed to open database. cause: ", err.Error())
 	}
 
-	sqlDb.SetMaxIdleConns(10)
-	sqlDb.SetMaxOpenConns(10)
-
 	return &sqlAdapter{
-		sqlDb: sqlDb,
+		sqlDb: db,
 	}
 }
 
