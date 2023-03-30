@@ -1,13 +1,10 @@
-CREATE TABLE IF NOT EXISTS "sensor"
+CREATE TABLE IF NOT EXISTS sensor
 (
     first_id CHAR,
     second_id CHAR,
-    timestamp TIMESTAMPTZ,
+    timestamps TIMESTAMP,
     sensor_value FLOAT,
+    sensor_type TEXT,
 
-    PRIMARY KEY (first_id, second_id)
+    PRIMARY KEY(first_id, second_id)
 );
-
-CREATE INDEX sensor_timestamp ON sensor(first_id, second_id, timestamp);
-
-COMMENT ON TABLE "sensor" IS 'Holds sensor values information';

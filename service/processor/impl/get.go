@@ -1,8 +1,11 @@
 package impl
 
-import processor "actuator/service/processor/api"
+import (
+	processor "actuator/service/processor/api"
+	"context"
+)
 
-func (p *processorService) Get(req *processor.SensorFilterAndPagination) error {
+func (p *ProcessorService) Get(ctx context.Context, req *processor.SensorFilterAndPagination) (*processor.SensorResponse, error) {
 
-	return nil
+	return nil, nil
 }

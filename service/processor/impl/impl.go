@@ -4,6 +4,8 @@ import (
 	processor "actuator/service/processor/api"
 )
 
-type processorService struct {
+type ProcessorService struct {
+	SensorQuery SensorQuery
+
 	processor.UnimplementedProcessorServer
 }
