@@ -39,7 +39,7 @@ func generateRandomSensor(numOfMessagePerSecond int32, stream processor.Processo
 		err := stream.Send(&processor.Sensor{
 			SensorValue: rand.Float32(),
 			SensorType:  fmt.Sprintf("%v", randomSensorType[rand.Intn(len(randomSensorType))]),
-			Id1:         fmt.Sprintf("%v", randomCapitalLetter[rand.Intn(len(randomCapitalLetter))]),
+			Id1:         fmt.Sprintf("%v", string(randomCapitalLetter[rand.Intn(len(randomCapitalLetter))])),
 			Id2:         int32(rand.Intn(len(randomCapitalLetter))),
 			Timestamp:   timestamppb.New(time.Now()),
 		})

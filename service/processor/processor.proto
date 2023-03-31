@@ -16,7 +16,7 @@ service Processor {
   rpc Delete(SensorFilter) returns (google.protobuf.Empty) {}
 
   // Edit updates sensor in the database based on filter
-  rpc Edit(SensorFilter) returns (google.protobuf.Empty) {}
+  rpc Edit(EditRequest) returns (google.protobuf.Empty) {}
 }
 
 // A Sensor is generated in response to a Start rpc
@@ -54,5 +54,9 @@ message SensorFilterAndPagination {
 }
 
 message SensorResponse {
+  repeated Sensor sensors = 1;
+}
+
+message EditRequest {
   repeated Sensor sensors = 1;
 }
