@@ -30,7 +30,7 @@ type sqlAdapter struct {
 
 func NewSqlAdapter(sqlCfg SqlConfig) SqlAdapter {
 	dbEndpoint := fmt.Sprintf("%s:%s", sqlCfg.DbHost, sqlCfg.DbPort)
-	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s?tls=true&allowCleartextPasswords=true",
+	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s",
 		sqlCfg.DbUser, sqlCfg.DbPassword, dbEndpoint, sqlCfg.DbName,
 	)
 

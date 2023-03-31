@@ -3,6 +3,7 @@ package impl
 import (
 	"actuator/engine"
 	"fmt"
+	"log"
 	"strings"
 	"time"
 )
@@ -28,31 +29,32 @@ type SensorDb struct {
 	SecondID    string    `json:"second_id" db:"second_id"`
 	SensorValue string    `json:"sensor_value" db:"sensor_value"`
 	SensorType  string    `json:"sensor_type" db:"sensor_type"`
-	Timestamp   time.Time `json:"timestamp" db:"timestamp"`
+	Timestamp   time.Time `json:"timestamps" db:"timestamps"`
 }
 
 func (a *sensorQuery) UpsertSensor(sensorDb SensorDb) error {
-	insertQuery := `INSERT INTO "public".sensor(
+	insertQuery := `INSERT INTO sensor(
 							first_id, 
 							second_id, 
 							sensor_value, 
 							sensor_type, 
-							timestamp
-					) VALUES($1, $2, $3, $4, $5) 
-					ON CONFLICT DO UPDATE SET 
-							timestamp = EXTENDED.timestamp, 
-							sensor_value = EXTENDED.sensor_value, 
-							sensor_type = EXTENDED.sensor_type`
+							timestamps
+					) VALUES(?, ?, ?, ?, ?) AS new(a,b,c,d,e)
+					ON DUPLICATE KEY UPDATE 
+							sensor_value = c, 
+							sensor_type = d,
+							timestamps = e`
 
 	queryInput := []interface{}{
 		sensorDb.FirstID,
 		sensorDb.SecondID,
 		sensorDb.SensorValue,
-		sensorDb.SensorValue,
+		sensorDb.SensorType,
 		sensorDb.Timestamp,
 	}
 
 	if err := a.sqlAdapter.Write(insertQuery, queryInput); err != nil {
+		log.Printf("[UpsertSensor] error upserting sensor. cause: %v\n", err.Error())
 		return err
 	}
 

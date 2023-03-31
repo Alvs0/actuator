@@ -1,11 +1,10 @@
 {
   "Address": "localhost:8081",
   "MySQLConfig": {
-    "dbName": "actuator",
+    "dbName": "sensor",
     "dbUser": "admin",
-    "dbHost": "actuator.czw5it4vhqmm.ap-southeast-1.rds.amazonaws.com",
+    "dbHost": "127.0.0.1",
     "dbPort": "3306",
-    "dbPassword": "mysecret",
-    "region": "ap-southeast-1a"
+    "dbPassword": "password"
   }
 }
