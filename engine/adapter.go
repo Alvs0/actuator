@@ -30,7 +30,7 @@ type sqlAdapter struct {
 
 func NewSqlAdapter(sqlCfg SqlConfig) SqlAdapter {
 	dbEndpoint := fmt.Sprintf("%s:%s", sqlCfg.DbHost, sqlCfg.DbPort)
-	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s",
+	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s?parseTime=true",
 		sqlCfg.DbUser, sqlCfg.DbPassword, dbEndpoint, sqlCfg.DbName,
 	)
 
@@ -87,7 +87,12 @@ func (s *sqlAdapter) Read(query string, input []interface{}, output interface{})
 
 			resultMap := make(map[string]interface{})
 			for i, val := range values {
-				resultMap[columns[i]] = val
+				byteValue, ok := val.([]byte)
+				if ok {
+					resultMap[columns[i]] = string(byteValue)
+				} else {
+					resultMap[columns[i]] = val
+				}
 			}
 
 			allMaps = append(allMaps, resultMap)

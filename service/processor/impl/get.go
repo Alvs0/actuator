@@ -5,46 +5,87 @@ import (
 	"context"
 	"google.golang.org/protobuf/types/known/timestamppb"
 	"strconv"
+	"time"
+)
+
+const (
+	TimeLayout = "2006-01-02T15:04:05Z"
 )
 
 func (p *ProcessorService) Get(ctx context.Context, req *processor.SensorFilterAndPagination) (res *processor.SensorResponse, err error) {
-	firstID := req.SensorFilter.GetId1()
-	secondID := strconv.Itoa(int(req.SensorFilter.GetId2()))
-	timestamp := req.SensorFilter.GetTimestamp().AsTime()
-
-	sensorDbs, err := p.SensorQuery.GetSensors(SensorFilter{
-		FirstID:   &firstID,
-		SecondID:  &secondID,
-		Timestamp: &timestamp,
-	})
+	sensorDbs, err := p.SensorQuery.GetSensors(constructSensorFilterAndPagination(req))
 	if err != nil {
-		return nil, err
+		return new(processor.SensorResponse), err
 	}
 
-	var sensors []processor.Sensor
+	var sensors []*processor.Sensor
 	for _, sensorDb := range sensorDbs {
 		secondIDInt, err := strconv.Atoi(sensorDb.SecondID)
 		if err != nil {
 			continue
 		}
 
-		sensorValueFloat64, err := strconv.ParseFloat(sensorDb.SensorValue, 10)
+		timestamp, err := time.Parse(TimeLayout, sensorDb.Timestamp)
 		if err != nil {
 			continue
 		}
 
-		sensors = append(sensors, processor.Sensor{
-			SensorValue:          float32(sensorValueFloat64),
-			SensorType:           sensorDb.SensorType,
-			Id1:                  sensorDb.FirstID,
-			Id2:                  int32(secondIDInt),
-			Timestamp:            timestamppb.New(sensorDb.Timestamp),
-		})
+		sensor := processor.Sensor{
+			SensorValue: sensorDb.SensorValue,
+			SensorType:  sensorDb.SensorType,
+			Id1:         sensorDb.FirstID,
+			Id2:         int32(secondIDInt),
+			Timestamp:   timestamppb.New(timestamp),
+		}
+
+		sensors = append(sensors, &sensor)
 	}
 
 	res = &processor.SensorResponse{
-		Sensors:              nil,
+		Sensors: sensors,
 	}
 
-	return nil, nil
+	return
+}
+
+func constructSensorFilter(filterReq *processor.SensorFilter) SensorFilter {
+	var firstID, secondID *string
+	var startTimestamp, endTimestamp *time.Time
+
+	if filterReq.GetId1() != nil || filterReq.GetId1().GetData() != "" {
+		firstIDData := filterReq.GetId1().GetData()
+		firstID = &firstIDData
+	}
+
+	if filterReq.GetId2() != nil || filterReq.GetId2().GetData() != 0 {
+		secondIDData := strconv.Itoa(int(filterReq.GetId2().GetData()))
+		secondID = &secondIDData
+	}
+
+	if filterReq.GetStartTimestamp() != nil {
+		startTimestampData := filterReq.GetStartTimestamp().GetData().AsTime()
+		startTimestamp = &startTimestampData
+	}
+
+	if filterReq.GetEndTimestamp() != nil {
+		endTimestampData := filterReq.GetEndTimestamp().GetData().AsTime()
+		endTimestamp = &endTimestampData
+	}
+
+	return SensorFilter{
+		FirstID:        firstID,
+		SecondID:       secondID,
+		StartTimestamp: startTimestamp,
+		EndTimestamp:   endTimestamp,
+	}
+}
+
+func constructSensorFilterAndPagination(req *processor.SensorFilterAndPagination) (SensorFilter, SensorPagination) {
+	pageNumber := req.GetSensorPagination().GetPageNumbers()
+	itemPerPage := req.GetSensorPagination().GetItemPerPage()
+
+	return constructSensorFilter(req.GetSensorFilter()), SensorPagination{
+		PageNumber:  &pageNumber,
+		ItemPerPage: &itemPerPage,
+	}
 }

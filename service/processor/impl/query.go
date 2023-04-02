@@ -9,8 +9,8 @@ import (
 )
 
 type SensorQuery interface {
-	UpsertSensor(sensorDbs []SensorDb) error
-	GetSensors(filter SensorFilter) ([]SensorDb, error)
+	UpsertSensor(sensorDbs []SensorDbUpsertSpec) error
+	GetSensors(filter SensorFilter, pagination SensorPagination) ([]SensorDb, error)
 	DeleteSensor(filter SensorFilter) error
 }
 
@@ -24,22 +24,31 @@ func NewSensorQuery(sqlAdapter engine.SqlAdapter) SensorQuery {
 	}
 }
 
+type SensorDbUpsertSpec struct {
+	FirstID     string
+	SecondID    string
+	SensorValue float32
+	SensorType  string
+	Timestamp   time.Time
+}
+
 type SensorDb struct {
-	FirstID     string    `json:"first_id" db:"first_id"`
-	SecondID    string    `json:"second_id" db:"second_id"`
-	SensorValue string    `json:"sensor_value" db:"sensor_value"`
-	SensorType  string    `json:"sensor_type" db:"sensor_type"`
-	Timestamp   time.Time `json:"timestamps" db:"timestamps"`
+	FirstID     string  `json:"first_id" db:"first_id"`
+	SecondID    string  `json:"second_id" db:"second_id"`
+	SensorValue float32 `json:"sensor_value" db:"sensor_value"`
+	SensorType  string  `json:"sensor_type" db:"sensor_type"`
+	Timestamp   string  `json:"timestamps" db:"timestamps"`
 }
 
 type SensorFilter struct {
-	FirstID   *string
-	SecondID  *string
-	Timestamp *time.Time
+	FirstID        *string
+	SecondID       *string
+	StartTimestamp *time.Time
+	EndTimestamp   *time.Time
 }
 
 func (s *SensorFilter) ConstructFilter(ignoreEmpty bool) (string, []interface{}, error) {
-	var firstIDExist, secondIDExist, timestampExist bool
+	var firstIDExist, secondIDExist, startTimestampExist, endTimestampExist bool
 
 	var whereClause []string
 	var whereInput []interface{}
@@ -55,17 +64,23 @@ func (s *SensorFilter) ConstructFilter(ignoreEmpty bool) (string, []interface{},
 		whereInput = append(whereInput, *s.SecondID)
 	}
 
-	if s.Timestamp != nil {
-		timestampExist = true
-		whereClause = append(whereClause, "timestamps = ?")
-		whereInput = append(whereInput, *s.Timestamp)
+	if s.StartTimestamp != nil {
+		startTimestampExist = true
+		whereClause = append(whereClause, "timestamps > ?")
+		whereInput = append(whereInput, *s.StartTimestamp)
 	}
 
-	if !ignoreEmpty && !firstIDExist && !secondIDExist && !timestampExist {
+	if s.EndTimestamp != nil {
+		endTimestampExist = true
+		whereClause = append(whereClause, "timestamps < ?")
+		whereInput = append(whereInput, *s.EndTimestamp)
+	}
+
+	if !ignoreEmpty && !firstIDExist && !secondIDExist && !startTimestampExist && !endTimestampExist {
 		return "", nil, fmt.Errorf("empty filter disallowed")
 	}
 
-	if ignoreEmpty && !firstIDExist && !secondIDExist && !timestampExist {
+	if ignoreEmpty && !firstIDExist && !secondIDExist && !startTimestampExist && !endTimestampExist {
 		return "", nil, nil
 	}
 
@@ -74,7 +89,27 @@ func (s *SensorFilter) ConstructFilter(ignoreEmpty bool) (string, []interface{},
 	return fmt.Sprintf("WHERE %v", whereString), whereInput, nil
 }
 
-func (a *sensorQuery) UpsertSensor(sensorDbs []SensorDb) error {
+type SensorPagination struct {
+	PageNumber  *int32
+	ItemPerPage *int32
+}
+
+func (s *SensorPagination) ConstructPagination() string {
+	limit := int32(10)
+	offset := int32(0)
+
+	if s.ItemPerPage != nil {
+		limit = *s.ItemPerPage
+	}
+
+	if s.PageNumber != nil {
+		offset = (*s.PageNumber - 1) * limit
+	}
+
+	return fmt.Sprintf("LIMIT %v OFFSET %v", limit, offset)
+}
+
+func (a *sensorQuery) UpsertSensor(sensorDbs []SensorDbUpsertSpec) error {
 	insertQuery := `INSERT INTO sensor(
 							first_id, 
 							second_id, 
@@ -111,13 +146,15 @@ func (a *sensorQuery) UpsertSensor(sensorDbs []SensorDb) error {
 	return nil
 }
 
-func (a *sensorQuery) GetSensors(filter SensorFilter) ([]SensorDb, error) {
+func (a *sensorQuery) GetSensors(filter SensorFilter, pagination SensorPagination) ([]SensorDb, error) {
 	whereString, queryInput, err := filter.ConstructFilter(true)
 	if err != nil {
 		return nil, err
 	}
 
-	getQuery := fmt.Sprintf(`SELECT * FROM sensor %v`, whereString)
+	paginationString := pagination.ConstructPagination()
+
+	getQuery := fmt.Sprintf(`SELECT first_id, second_id, sensor_value, sensor_type, timestamps FROM sensor %v %v`, whereString, paginationString)
 
 	var sensorDbs []SensorDb
 	if err := a.sqlAdapter.Read(getQuery, queryInput, &sensorDbs); err != nil {

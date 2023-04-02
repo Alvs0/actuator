@@ -19,11 +19,11 @@ func (p *ProcessorService) Process(stream processor.Processor_ProcessServer) err
 			})
 		}
 
-		if err := p.SensorQuery.UpsertSensor([]SensorDb{
+		if err := p.SensorQuery.UpsertSensor([]SensorDbUpsertSpec{
 			{
 				FirstID:     value.GetId1(),
 				SecondID:    strconv.Itoa(int(value.GetId2())),
-				SensorValue: fmt.Sprintf("%f", value.GetSensorValue()),
+				SensorValue: value.GetSensorValue(),
 				SensorType:  value.GetSensorType(),
 				Timestamp:   value.GetTimestamp().AsTime(),
 			},
