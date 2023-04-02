@@ -1,9 +1,8 @@
-CREATE TABLE IF NOT EXISTS sensor
+CREATE TABLE IF NOT EXISTS account
 (
-    id TEXT,
-    email TEXT,
-    name TEXT,
+    id       VARCHAR(255),
+    username TEXT,
     password VARCHAR(255),
 
-    PRIMARY KEY(id)
+    PRIMARY KEY (id)
 );

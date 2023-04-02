@@ -13,7 +13,7 @@ const (
 )
 
 func (p *ProcessorService) Get(ctx context.Context, req *processor.SensorFilterAndPagination) (res *processor.SensorResponse, err error) {
-	sensorDbs, err := p.SensorQuery.GetSensors(constructSensorFilterAndPagination(req))
+	sensorDbs, err := p.ProcessorQuery.GetSensors(constructSensorFilterAndPagination(req))
 	if err != nil {
 		return new(processor.SensorResponse), err
 	}

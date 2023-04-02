@@ -27,7 +27,7 @@ func main() {
 	}
 
 	sqlAdapter := engine.NewSqlAdapter(cfg.MySQLConfig)
-	sensorQuery := processorImpl.NewSensorQuery(sqlAdapter)
+	sensorQuery := processorImpl.NewProcessorQuery(sqlAdapter)
 
 	listener, err := net.Listen("tcp", cfg.Address)
 	if err != nil {
@@ -36,7 +36,7 @@ func main() {
 
 	grpcServer := grpc.NewServer()
 	processorService := &processorImpl.ProcessorService{
-		SensorQuery:                  sensorQuery,
+		ProcessorQuery: sensorQuery,
 	}
 
 	processor.RegisterProcessorServer(grpcServer, processorService)

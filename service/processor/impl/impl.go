@@ -5,7 +5,7 @@ import (
 )
 
 type ProcessorService struct {
-	SensorQuery SensorQuery
+	ProcessorQuery ProcessorQuery
 
 	processor.UnimplementedProcessorServer
 }

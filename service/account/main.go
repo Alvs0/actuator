@@ -29,13 +29,16 @@ func main() {
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 
-	authHandler := impl.NewAuthHandler()
+	sqlAdapter := engine.NewSqlAdapter(cfg.MySQLConfig)
+	accountQuery := impl.NewAccountQuery(sqlAdapter)
+
+	authHandler := impl.NewAuthHandler(accountQuery)
 
 	e.POST("/login", authHandler.Login)
 
 	r := e.Group("/validate")
 	r.Use(impl.CreateMiddleware())
-	r.POST("/validate", authHandler.Validate)
+	r.POST("", authHandler.Validate)
 
 	e.Logger.Fatal(e.Start(cfg.StartAtPort))
 }

@@ -6,12 +6,12 @@ import (
 	"net/http"
 )
 
-func (a *authHandler) Validate(c echo.Context) error {
-	user := c.Get("user").(*jwt.Token)
+func (a *authHandler) Validate(ctx echo.Context) error {
+	user := ctx.Get("user").(*jwt.Token)
 	claims := user.Claims.(*jwtCustomClaims)
 	name := claims.Name
 
-	return c.JSON(http.StatusOK, echo.Map{
+	return ctx.JSON(http.StatusOK, echo.Map{
 		"name": name,
 	})
 }

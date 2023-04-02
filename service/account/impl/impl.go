@@ -13,11 +13,14 @@ type AuthHandler interface {
 	Validate(ctx echo.Context) error
 }
 
-type authHandler struct {}
+type authHandler struct {
+	accountQuery AccountQuery
+}
 
-
-func NewAuthHandler() AuthHandler {
-	return &authHandler{}
+func NewAuthHandler(accountQuery AccountQuery) AuthHandler {
+	return &authHandler{
+		accountQuery: accountQuery,
+	}
 }
 
 type jwtCustomClaims struct {
@@ -25,7 +28,6 @@ type jwtCustomClaims struct {
 	Admin bool   `json:"admin"`
 	jwt.RegisteredClaims
 }
-
 
 func CreateMiddleware() echo.MiddlewareFunc {
 	config := echojwt.Config{

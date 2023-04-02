@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-type SensorQuery interface {
+type ProcessorQuery interface {
 	UpsertSensor(sensorDbs []SensorDbUpsertSpec) error
 	GetSensors(filter SensorFilter, pagination SensorPagination) ([]SensorDb, error)
 	DeleteSensor(filter SensorFilter) error
@@ -18,7 +18,7 @@ type sensorQuery struct {
 	sqlAdapter engine.SqlAdapter
 }
 
-func NewSensorQuery(sqlAdapter engine.SqlAdapter) SensorQuery {
+func NewProcessorQuery(sqlAdapter engine.SqlAdapter) ProcessorQuery {
 	return &sensorQuery{
 		sqlAdapter: sqlAdapter,
 	}

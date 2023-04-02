@@ -19,7 +19,7 @@ func (p *ProcessorService) Edit(ctx context.Context, req *processor.EditRequest)
 		})
 	}
 
-	if err := p.SensorQuery.UpsertSensor(sensorDbs); err != nil {
+	if err := p.ProcessorQuery.UpsertSensor(sensorDbs); err != nil {
 		return nil, err
 	}
 
