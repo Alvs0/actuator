@@ -1,14 +1,15 @@
-FROM golang:1.18.2-alpine
+FROM golang:1.18.3-stretch
 
 WORKDIR /app
 
 COPY go.mod ./
+COPY go.sum ./
 RUN go mod download
 
-COPY *.go ./
+COPY . ./
 
-RUN go build -o /actuator-processor
+RUN go build -o /actuator-processor .
 
-EXPOSE 8082
+EXPOSE 8081
 
 CMD [ "/actuator-processor" ]
