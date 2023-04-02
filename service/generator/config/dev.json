@@ -1,13 +1,7 @@
 {
   "Address": "localhost:8080",
+  "AccountAddress": "localhost:8082",
   "ProcessorAddress": "localhost:8081",
-  "MySQLConfig": {
-    "dbName": "sensor",
-    "dbUser": "admin",
-    "dbHost": "127.0.0.1",
-    "dbPort": "3306",
-    "dbPassword": "password"
-  },
   "WorkersNumber": 10,
   "Batch": 100
 }

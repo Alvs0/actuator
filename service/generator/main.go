@@ -6,7 +6,6 @@ import (
 	generatorImpl "actuator/service/generator/impl"
 	processor "actuator/service/processor/api"
 	"fmt"
-	"github.com/labstack/echo/v4"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 	"log"
@@ -19,30 +18,27 @@ const (
 
 type Config struct {
 	Address          string
+	AccountAddress   string
 	ProcessorAddress string
-	MySQLConfig      engine.SqlConfig
 	WorkersNumber    int
 	Batch            int
 }
 
 func main() {
-	echo := echo.New()
-
 	var cfg Config
 	err := engine.LoadConfig("dev", ConfigPath, &cfg)
 	if err != nil {
 		log.Fatal("[Service] failed to load config cause: ", err.Error())
 	}
 
-	sqlAdapter := engine.NewSqlAdapter(cfg.MySQLConfig)
-	fmt.Println(sqlAdapter)
-
 	listener, err := net.Listen("tcp", cfg.Address)
 	if err != nil {
 		log.Fatalf("failed to listen. cause: %v", err)
 	}
 
-	grpcServer := grpc.NewServer()
+	grpcServer := grpc.NewServer(
+		grpc.UnaryInterceptor(generatorImpl.Authorize),
+	)
 
 	options := []grpc.DialOption{
 		grpc.WithTransportCredentials(insecure.NewCredentials()),
@@ -64,6 +60,4 @@ func main() {
 
 	fmt.Printf("[Generator] Service ready at %v\n", cfg.Address)
 	grpcServer.Serve(listener)
-
-	echo.Logger.Fatal(echo.Start(":8080"))
 }

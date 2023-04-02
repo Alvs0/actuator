@@ -34,7 +34,9 @@ func main() {
 		log.Fatalf("failed to listen. cause: %v", err)
 	}
 
-	grpcServer := grpc.NewServer()
+	grpcServer := grpc.NewServer(
+		grpc.UnaryInterceptor(processorImpl.Authorize),
+	)
 	processorService := &processorImpl.ProcessorService{
 		ProcessorQuery: sensorQuery,
 	}
