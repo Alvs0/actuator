@@ -1,0 +1,10 @@
+{
+  "Address": "localhost:8082",
+  "MySQLConfig": {
+    "dbName": "sensor",
+    "dbUser": "admin",
+    "dbHost": "127.0.0.1",
+    "dbPort": "3306",
+    "dbPassword": "password"
+  }
+}
