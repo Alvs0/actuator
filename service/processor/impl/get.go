@@ -1,8 +1,8 @@
 package impl
 
 import (
-	processor "actuator/service/processor/api"
 	"context"
+	processor "github.com/Alvs0/actuator/service/processor/api"
 	"google.golang.org/protobuf/types/known/timestamppb"
 	"strconv"
 	"time"

@@ -1,10 +1,10 @@
 package impl
 
 import (
-	processor "actuator/service/processor/api"
 	"bytes"
 	"context"
 	"fmt"
+	processor "github.com/Alvs0/actuator/service/processor/api"
 	"github.com/labstack/gommon/log"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/metadata"

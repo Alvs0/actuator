@@ -1,8 +1,8 @@
 package impl
 
 import (
-	processor "actuator/service/processor/api"
 	"fmt"
+	processor "github.com/Alvs0/actuator/service/processor/api"
 	"io"
 	"strconv"
 )

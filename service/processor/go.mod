@@ -3,7 +3,6 @@ module github.com/Alvs0/actuator/service/processor
 go 1.18
 
 require (
-	actuator/service/processor v0.0.0
 	github.com/Alvs0/actuator/engine v0.0.0-20230402123545-e6df9ed4579d
 	github.com/golang/protobuf v1.5.3
 	github.com/labstack/gommon v0.4.0
@@ -35,5 +34,3 @@ require (
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
-
-replace actuator/service/processor v0.0.0 => ../processor
