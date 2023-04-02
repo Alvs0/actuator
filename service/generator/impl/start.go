@@ -1,10 +1,10 @@
 package impl
 
 import (
-	generator "actuator/service/generator/api"
-	processor "actuator/service/processor/api"
 	"context"
 	"fmt"
+	generator "github.com/Alvs0/actuator/service/generator/api"
+	processor "github.com/Alvs0/actuator/service/processor/api"
 	"github.com/golang/protobuf/ptypes/empty"
 	"github.com/jasonlvhit/gocron"
 	"google.golang.org/protobuf/types/known/timestamppb"

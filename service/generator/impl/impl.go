@@ -1,11 +1,11 @@
 package impl
 
 import (
-	generator "actuator/service/generator/api"
-	processor "actuator/service/processor/api"
 	"bytes"
 	"context"
 	"fmt"
+	generator "github.com/Alvs0/actuator/service/generator/api"
+	processor "github.com/Alvs0/actuator/service/processor/api"
 	"github.com/labstack/gommon/log"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/metadata"

@@ -1,11 +1,10 @@
-module generator
+module github.com/Alvs0/actuator/service/generator
 
 go 1.18
 
 require (
-	actuator/engine v0.0.0
-	actuator/service/generator v0.0.0
-	actuator/service/processor v0.0.0
+	github.com/Alvs0/actuator/engine v0.0.0-20230402123545-e6df9ed4579d
+	github.com/Alvs0/actuator/service/processor v0.0.0-20230402130312-7f16ddccc315
 	github.com/golang/protobuf v1.5.3
 	github.com/jasonlvhit/gocron v0.0.1
 	github.com/labstack/gommon v0.4.0
@@ -36,10 +35,4 @@ require (
 	google.golang.org/genproto v0.0.0-20230110181048-76db0878b65f // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
-)
-
-replace (
-	actuator/engine v0.0.0 => ./../../engine
-	actuator/service/generator v0.0.0 => ./../generator
-	actuator/service/processor v0.0.0 => ./../processor
 )

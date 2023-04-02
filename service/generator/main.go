@@ -1,11 +1,11 @@
 package main
 
 import (
-	"actuator/engine"
-	generator "actuator/service/generator/api"
-	generatorImpl "actuator/service/generator/impl"
-	processor "actuator/service/processor/api"
 	"fmt"
+	"github.com/Alvs0/actuator/engine"
+	generator "github.com/Alvs0/actuator/service/generator/api"
+	generatorImpl "github.com/Alvs0/actuator/service/generator/impl"
+	processor "github.com/Alvs0/actuator/service/processor/api"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 	"log"
