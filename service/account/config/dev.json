@@ -1,5 +1,5 @@
 {
-  "Address": "localhost:8082",
+  "StartAtPort": ":8082",
   "MySQLConfig": {
     "dbName": "sensor",
     "dbUser": "admin",
