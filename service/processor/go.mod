@@ -1,4 +1,4 @@
-module processor
+module github.com/Alvs0/actuator/service/processor
 
 go 1.18
 
