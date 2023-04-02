@@ -1,8 +1,8 @@
 package main
 
 import (
-	"account/impl"
 	"github.com/Alvs0/actuator/engine"
+	"github.com/Alvs0/actuator/service/account/impl"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"log"

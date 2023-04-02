@@ -1,4 +1,4 @@
-module account
+module github.com/Alvs0/actuator/service/account
 
 go 1.18
 
@@ -36,5 +36,3 @@ require (
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
-
-replace actuator/engine v0.0.0 => ./../../engine
