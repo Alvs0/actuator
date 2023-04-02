@@ -1,4 +1,4 @@
-module engine
+module github.com/Alvs0/actuator/engine
 
 go 1.18
 
