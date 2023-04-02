@@ -1,8 +1,8 @@
 package impl
 
 import (
-	"actuator/engine"
 	"fmt"
+	"github.com/Alvs0/actuator/engine"
 	"log"
 	"strings"
 	"time"

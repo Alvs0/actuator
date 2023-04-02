@@ -3,8 +3,8 @@ module processor
 go 1.18
 
 require (
-	actuator/engine v0.0.0
 	actuator/service/processor v0.0.0
+	github.com/Alvs0/actuator/engine v0.0.0-20230402123545-e6df9ed4579d
 	github.com/golang/protobuf v1.5.3
 	github.com/labstack/gommon v0.4.0
 	google.golang.org/grpc v1.54.0
@@ -36,7 +36,4 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
-replace (
-	actuator/engine v0.0.0 => ../../engine
-	actuator/service/processor v0.0.0 => ../processor
-)
+replace actuator/service/processor v0.0.0 => ../processor

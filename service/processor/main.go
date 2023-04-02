@@ -1,10 +1,10 @@
 package main
 
 import (
-	"actuator/engine"
 	processor "actuator/service/processor/api"
 	processorImpl "actuator/service/processor/impl"
 	"fmt"
+	"github.com/Alvs0/actuator/engine"
 	"google.golang.org/grpc"
 	"log"
 	"net"
