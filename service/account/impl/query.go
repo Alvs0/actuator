@@ -1,7 +1,7 @@
 package impl
 
 import (
-	"actuator/engine"
+	"github.com/Alvs0/actuator/engine"
 )
 
 type AccountQuery interface {

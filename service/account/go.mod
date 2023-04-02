@@ -3,7 +3,7 @@ module account
 go 1.18
 
 require (
-	actuator/engine v0.0.0
+	github.com/Alvs0/actuator/engine v0.0.0-20230402123545-e6df9ed4579d
 	github.com/golang-jwt/jwt/v4 v4.5.0
 	github.com/labstack/echo-jwt/v4 v4.1.0
 	github.com/labstack/echo/v4 v4.10.2
